@@ -1,6 +1,6 @@
 // OK Mobility Car Rentals - Service Worker
 // Bump CACHE version whenever you change index.html to force an update.
-const CACHE = 'okmobility-v6';
+const CACHE = 'okmobility-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,8 @@ const ASSETS = [
   './icon-512.png',
   './icon-512-maskable.png',
   './apple-touch-icon.png',
-  './favicon.png'
+  './favicon.png',
+  './logo.png'
 ];
 
 self.addEventListener('install', (e) => {
