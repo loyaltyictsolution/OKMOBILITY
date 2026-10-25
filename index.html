@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en-KE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>OK Mobility Car Rentals & Hire</title>
+<meta name="description" content="OK Mobility Car Rentals & Hire — book and manage car rentals in Kenya.">
+<meta name="theme-color" content="#0F1B2D">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.png" type="image/png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0F1B2D; --ink-2:#16263D; --surface:#1B2E48; --surface-2:#213655;
+  --line:#2A3F5C; --line-soft:#22364f;
+  --amber:#F5B301; --amber-d:#d99e00;
+  --teal:#17C3B2; --green:#22C55E; --red:#EF4444; --red-d:#c53a3a;
+  --text:#F4F6F9; --muted:#93A4BB; --muted-2:#6f829c;
+  --plate:#F5B301;
+  --radius:14px; --radius-sm:10px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --maxw:1160px;
+  --disp:"Barlow Semi Condensed", system-ui, "Segoe UI", sans-serif;
+  --body:"Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--body); background:var(--ink); color:var(--text);
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(1200px 500px at 80% -10%, rgba(245,179,1,.10), transparent 60%),
+                   radial-gradient(900px 500px at -10% 10%, rgba(23,195,178,.08), transparent 55%);
+  min-height:100vh; padding-bottom:env(safe-area-inset-bottom);
+}
+h1,h2,h3,h4{font-family:var(--disp); font-weight:700; letter-spacing:.2px; line-height:1.1}
+a{color:var(--teal); text-decoration:none}
+img{max-width:100%; display:block}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 18px}
+.hidden{display:none !important}
+.center{text-align:center}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.tiny{font-size:12px}
+.mono{font-variant-numeric:tabular-nums}
+
+/* ---------- Header ---------- */
+.topbar{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px);
+  background:rgba(15,27,45,.82); border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex; align-items:center; gap:14px; height:64px}
+.brand{display:flex; align-items:center; gap:11px; cursor:pointer}
+.plate{font-family:var(--disp); font-weight:800; background:var(--plate); color:#0c1016;
+  border:2px solid #0c1016; border-radius:8px; padding:3px 9px; font-size:20px; letter-spacing:1px;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.25); line-height:1}
+.brand .bn{font-family:var(--disp); font-weight:700; font-size:19px; letter-spacing:.4px}
+.brand .bn small{display:block; font-size:10.5px; letter-spacing:2px; color:var(--amber); font-weight:600; margin-top:1px}
+.nav-actions{margin-left:auto; display:flex; align-items:center; gap:8px}
+.chip{font-size:12px; color:var(--muted); border:1px solid var(--line); padding:5px 10px; border-radius:999px; white-space:nowrap}
+
+/* ---------- Buttons ---------- */
+.btn{font-family:var(--body); font-weight:600; font-size:14px; cursor:pointer;
+  border:1px solid var(--line); background:var(--surface); color:var(--text);
+  padding:10px 16px; border-radius:10px; display:inline-flex; align-items:center; gap:8px;
+  transition:transform .06s ease, background .15s ease, border-color .15s ease; white-space:nowrap}
+.btn:hover{border-color:var(--muted-2)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--teal); outline-offset:2px}
+.btn-amber{background:var(--amber); color:#0c1016; border-color:var(--amber)}
+.btn-amber:hover{background:var(--amber-d); border-color:var(--amber-d)}
+.btn-teal{background:var(--teal); color:#04201d; border-color:var(--teal)}
+.btn-danger{background:transparent; color:#ffb4b4; border-color:#5a3030}
+.btn-danger:hover{background:#3a1f1f; border-color:var(--red-d)}
+.btn-ghost{background:transparent}
+.btn-sm{padding:7px 12px; font-size:13px; border-radius:9px}
+.btn-block{width:100%; justify-content:center}
+.btn[disabled]{opacity:.5; cursor:not-allowed}
+
+/* ---------- Hero ---------- */
+.hero{padding:54px 0 30px; position:relative}
+.hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:34px; align-items:center}
+.eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:var(--disp);
+  letter-spacing:2px; font-size:12px; color:var(--amber); text-transform:uppercase; font-weight:600;
+  border:1px solid var(--line); padding:6px 12px; border-radius:999px; margin-bottom:16px}
+.hero h1{font-size:clamp(34px,5.4vw,58px); font-weight:800; letter-spacing:.5px}
+.hero h1 .hl{color:var(--amber)}
+.hero p.lead{color:var(--muted); font-size:17px; max-width:44ch; margin:16px 0 24px}
+.hero-cta{display:flex; gap:12px; flex-wrap:wrap}
+.hero-stats{display:flex; gap:26px; margin-top:30px}
+.hero-stats .s b{font-family:var(--disp); font-size:26px; display:block; color:var(--text)}
+.hero-stats .s span{font-size:12px; color:var(--muted); letter-spacing:.5px}
+.hero-visual{position:relative; aspect-ratio:1/1; border-radius:22px; overflow:hidden;
+  border:1px solid var(--line); background:
+   radial-gradient(120% 120% at 70% 20%, rgba(245,179,1,.22), transparent 55%),
+   linear-gradient(160deg,#15263e,#0d1626);
+  display:grid; place-items:center}
+.hero-visual .roadmark{position:absolute; inset:auto 0 22% 0; height:8px;
+  background:repeating-linear-gradient(90deg, var(--amber) 0 34px, transparent 34px 64px); opacity:.55}
+.hero-visual .bigcar{width:78%; filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+.hero-visual .badge-float{position:absolute; top:20px; left:20px; background:rgba(12,16,22,.7);
+  border:1px solid var(--line); border-radius:12px; padding:9px 12px; font-size:12px; color:var(--muted)}
+
+/* ---------- Sections ---------- */
+.section{padding:34px 0}
+.section-head{display:flex; align-items:end; justify-content:space-between; gap:14px; margin-bottom:20px; flex-wrap:wrap}
+.section-head h2{font-size:30px}
+.section-head .sub{color:var(--muted); font-size:14px; margin-top:4px}
+
+/* ---------- Fleet grid ---------- */
+.fleet-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px}
+.car{background:linear-gradient(180deg,var(--ink-2),#132038); border:1px solid var(--line);
+  border-radius:var(--radius); overflow:hidden; display:flex; flex-direction:column; transition:border-color .15s, transform .12s}
+.car:hover{border-color:var(--muted-2); transform:translateY(-2px)}
+.car-media{aspect-ratio:16/10; position:relative; display:grid; place-items:center; overflow:hidden;
+  background:radial-gradient(120% 120% at 60% 20%, rgba(245,179,1,.16), transparent 60%), #0f1c30}
+.car-media .car-photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1}
+.car-media .cat,.car-media .avail{z-index:2}
+.car-media .glyph{width:90%; opacity:.95}
+.car-media .cat{position:absolute; top:10px; left:10px; font-size:11px; letter-spacing:.6px;
+  background:rgba(12,16,22,.72); border:1px solid var(--line); padding:4px 9px; border-radius:999px; color:var(--muted)}
+.car-media .avail{position:absolute; top:10px; right:10px; font-size:11px; padding:4px 9px; border-radius:999px; font-weight:600}
+.avail.on{background:rgba(34,197,94,.15); color:#7ff0a8; border:1px solid #275c3c}
+.avail.off{background:rgba(239,68,68,.12); color:#ff9b9b; border:1px solid #5a3030}
+.car-body{padding:14px; display:flex; flex-direction:column; gap:10px; flex:1}
+.car-title{font-family:var(--disp); font-size:19px; font-weight:700}
+.car-specs{display:flex; flex-wrap:wrap; gap:6px}
+.spec{font-size:11.5px; color:var(--muted); border:1px solid var(--line-soft); padding:3px 8px; border-radius:7px}
+.price-row{display:flex; align-items:baseline; gap:6px; margin-top:auto}
+.price{font-family:var(--disp); font-size:24px; font-weight:800; color:var(--amber)}
+.price small{font-size:12px; color:var(--muted); font-weight:500}
+.car-actions{display:flex; gap:8px}
+
+/* ---------- Forms ---------- */
+.field{margin-bottom:14px}
+.field label{display:block; font-size:13px; color:var(--muted); margin-bottom:6px; font-weight:500}
+.input,select,textarea{width:100%; font-family:var(--body); font-size:14.5px; color:var(--text);
+  background:#0f1d31; border:1px solid var(--line); border-radius:10px; padding:11px 13px; outline:none; transition:border-color .15s}
+.input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+textarea{resize:vertical; min-height:78px}
+select{appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 18px,calc(100% - 13px) 18px; background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.form-err{color:#ff9b9b; font-size:13px; margin:2px 0 10px; min-height:0}
+
+/* ---------- Cards / panels ---------- */
+.card{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:22px}
+.auth-wrap{max-width:430px; margin:40px auto}
+.auth-tabs{display:flex; gap:6px; background:#0f1d31; border:1px solid var(--line); border-radius:12px; padding:5px; margin-bottom:20px}
+.auth-tabs button{flex:1; background:transparent; border:none; color:var(--muted); font-family:var(--body);
+  font-weight:600; font-size:14px; padding:9px; border-radius:8px; cursor:pointer}
+.auth-tabs button.active{background:var(--surface); color:var(--text)}
+
+/* ---------- Dashboard ---------- */
+.dash-head{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:26px 0 18px}
+.dash-head h2{font-size:28px}
+.tabs{display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--line); margin-bottom:22px; overflow-x:auto}
+.tab{background:transparent; border:none; border-bottom:2px solid transparent; color:var(--muted);
+  font-family:var(--body); font-weight:600; font-size:14px; padding:11px 14px; cursor:pointer; white-space:nowrap}
+.tab.active{color:var(--text); border-bottom-color:var(--amber)}
+.stat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:22px}
+.stat{background:var(--ink-2); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
+.stat .n{font-family:var(--disp); font-size:30px; font-weight:800}
+.stat .l{font-size:12.5px; color:var(--muted); letter-spacing:.4px; margin-top:2px}
+.stat.amber .n{color:var(--amber)} .stat.teal .n{color:var(--teal)} .stat.green .n{color:#7ff0a8}
+
+/* ---------- Table ---------- */
+.tbl-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:12px}
+table.tbl{width:100%; border-collapse:collapse; font-size:13.5px; min-width:560px}
+.tbl th{ text-align:left; font-family:var(--disp); font-weight:600; letter-spacing:.4px; color:var(--muted);
+  font-size:12px; text-transform:uppercase; padding:12px 14px; border-bottom:1px solid var(--line); background:#0f1d31}
+.tbl td{padding:12px 14px; border-bottom:1px solid var(--line-soft); vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.pill{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:999px; display:inline-block}
+.pill.pending{background:rgba(245,179,1,.14); color:var(--amber); border:1px solid #6a5417}
+.pill.confirmed{background:rgba(23,195,178,.14); color:#5fe6d7; border:1px solid #1c5a53}
+.pill.completed{background:rgba(34,197,94,.14); color:#7ff0a8; border:1px solid #275c3c}
+.pill.cancelled{background:rgba(239,68,68,.12); color:#ff9b9b; border:1px solid #5a3030}
+.pill.admin{background:rgba(245,179,1,.14); color:var(--amber); border:1px solid #6a5417}
+.pill.user{background:rgba(147,164,187,.12); color:var(--muted); border:1px solid var(--line)}
+.row-actions{display:flex; gap:6px; flex-wrap:wrap}
+
+/* ---------- Modal ---------- */
+.modal-back{position:fixed; inset:0; background:rgba(6,10,18,.72); backdrop-filter:blur(4px);
+  z-index:60; display:grid; place-items:center; padding:16px; overflow-y:auto}
+.modal{background:var(--ink-2); border:1px solid var(--line); border-radius:16px; width:100%;
+  max-width:520px; box-shadow:var(--shadow); max-height:92vh; overflow-y:auto}
+.modal-head{display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--ink-2)}
+.modal-head h3{font-size:20px}
+.modal-body{padding:20px}
+.x{background:transparent; border:none; color:var(--muted); font-size:22px; cursor:pointer; line-height:1; padding:2px 6px; border-radius:8px}
+.x:hover{color:var(--text); background:var(--surface)}
+
+/* ---------- Toast ---------- */
+#toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px);
+  background:#0c1016; border:1px solid var(--line); color:var(--text); padding:12px 18px; border-radius:12px;
+  font-size:14px; z-index:90; opacity:0; transition:.25s; box-shadow:var(--shadow); max-width:90vw}
+#toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:#275c3c} #toast.err{border-color:#5a3030}
+
+/* ---------- Footer ---------- */
+.footer{border-top:1px solid var(--line); margin-top:40px; padding:30px 0; color:var(--muted); font-size:13.5px}
+.footer .fg{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap}
+.footer a{color:var(--amber)}
+.note{background:rgba(245,179,1,.07); border:1px solid #4a3d17; color:#f0d79a; font-size:12.5px;
+  padding:10px 12px; border-radius:10px; margin-top:14px}
+
+/* ---------- Install banner ---------- */
+#installBar{position:fixed; left:16px; right:16px; bottom:16px; z-index:50; max-width:520px; margin:0 auto;
+  background:#0c1016; border:1px solid var(--amber); border-radius:14px; padding:12px 14px; display:none;
+  align-items:center; gap:12px; box-shadow:var(--shadow)}
+#installBar b{font-family:var(--disp)}
+
+@media (max-width:820px){
+  .hero-grid{grid-template-columns:1fr; gap:22px}
+  .hero-visual{max-width:360px; margin:0 auto; width:100%}
+  .grid-2{grid-template-columns:1fr}
+  .topbar .chip.hide-sm{display:none}
+}
+@media (max-width:480px){
+  .hero-stats{gap:18px}
+  .brand .bn{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+<!-- Firebase (compat SDK) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGMTriHkHbQtfjv2QD_IRFLjkPErHCQM4",
+    authDomain: "ok-mobility-83a76.firebaseapp.com",
+    projectId: "ok-mobility-83a76",
+    storageBucket: "ok-mobility-83a76.firebasestorage.app",
+    messagingSenderId: "739409578647",
+    appId: "1:739409578647:web:7677755e85978e8eaf37d2"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand" onclick="go('home')">
+      <span class="plate">OK</span>
+      <span class="bn" id="brandName">OK Mobility<small id="brandTag">CAR RENTALS &amp; HIRE</small></span>
+    </div>
+    <div class="nav-actions">
+      <span class="chip hide-sm" id="phoneChip"></span>
+      <span id="navAuth"></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ APP ROOT ============ -->
+<main id="app"></main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap fg">
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span class="plate" style="font-size:15px;padding:2px 7px">OK</span>
+        <strong id="footName" style="font-family:var(--disp);font-size:16px">OK Mobility Car Rentals &amp; Hire</strong>
+      </div>
+      <div class="muted">Reliable car rental & hire across Kenya.</div>
+      <div class="muted" style="margin-top:6px">Call / WhatsApp: <a id="footPhone" href="#"></a></div>
+    </div>
+    <div class="muted tiny" style="max-width:340px">
+      <div>© <span id="yr"></span> OK Mobility.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- install prompt -->
+<div id="installBar">
+  <span style="font-size:22px">📲</span>
+  <div style="flex:1"><b>Install OK Mobility</b><div class="tiny muted">Add to your home screen to use it like an app.</div></div>
+  <button class="btn btn-amber btn-sm" id="installBtn">Install</button>
+  <button class="x" onclick="document.getElementById('installBar').style.display='none'">×</button>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   OK MOBILITY CAR RENTALS & HIRE  —  client-side portal
+   Data is stored in Firebase (Firestore + Auth), shared across devices.
+   ============================================================ */
+
+/* ============================================================
+   DATA LAYER — Firebase (Firestore + Auth). One shared database
+   across every device: a booking on a phone appears in admin on a laptop.
+   ============================================================ */
+const auth = firebase.auth();
+const fdb  = firebase.firestore();
+
+/* in-memory cache kept live by Firestore listeners, so the synchronous views can read it */
+const STATE = { user:null, cars:[], bookings:[], users:[], settings:null, ready:false };
+const K = { cars:'cars', bookings:'bookings', users:'users', settings:'settings' };
+const DB = {  // read adapter: existing view code calls DB.get(K.x); serve from STATE
+  get(k, def){
+    if(k===K.cars) return STATE.cars;
+    if(k===K.bookings) return STATE.bookings;
+    if(k===K.users) return STATE.users;
+    if(k===K.settings) return STATE.settings || def || null;
+    return def;
+  },
+  set(){ /* writes go through Firestore helpers below */ }
+};
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KES = n => 'KES ' + Number(n||0).toLocaleString('en-KE');
+const todayISO = () => new Date().toISOString().slice(0,10);
+function toast(msg, type){ const t=$('#toast'); t.textContent=msg; t.className='show '+(type||''); setTimeout(()=>t.className='',2600); }
+function authMsg(e){ const m={'auth/invalid-email':'That email looks invalid.','auth/user-not-found':'No account with that email.','auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Incorrect email or password.','auth/email-already-in-use':'That email is already registered.','auth/weak-password':'Password must be at least 6 characters.','auth/too-many-requests':'Too many attempts. Try again later.','auth/network-request-failed':'Network error. Check your connection.'}; return m[e&&e.code] || (e&&e.message) || 'Something went wrong.'; }
+
+/* ---------- settings ---------- */
+const DEFAULT_SETTINGS = { name:'OK Mobility', tagline:'CAR RENTALS & HIRE',
+  phone:'0726049772', whatsapp:'254726049772', location:'Kenya', email:'' };
+function settings(){ return STATE.settings || DEFAULT_SETTINGS; }
+
+/* ---------- free stock photos (Unsplash License: free commercial use, no attribution) ---------- */
+const uImg = id => `https://images.unsplash.com/photo-${id}?w=800&h=520&fit=crop&q=70&auto=format`;
+const STOCK = {
+  'Toyota Vitz':'1604430096113-f3806ab7c810',
+  'Toyota Axio':'1573710459621-bb101783ca0f',
+  'Toyota Fielder':'1766918070462-20206f5610f6',
+  'Toyota Noah':'1675311183084-755007dbb223',
+  'Nissan X-Trail':'1533473359331-0135ef1b58bf',
+  'Toyota Harrier':'1622893288761-823ba60f17a6',
+  'Mazda CX-5':'1531181616225-f8e50c1ab53e',
+  'Subaru Forester':'1606611013016-969c19ba27bb',
+  'Toyota Prado':'1506015391300-4802dc74de2e',
+  'Toyota Land Cruiser V8':'1612563893490-d86ed296e5e6',
+  'Toyota Hilux Double Cab':'1612057473166-af2affdb92ad',
+  'Toyota Hiace 14-Seater':'1521499420147-36d5bfc2781f',
+};
+function stockFor(name){ return STOCK[name] ? uImg(STOCK[name]) : ''; }
+
+/* ---------- starter fleet (created by an admin only, when the fleet is empty) ---------- */
+const SEED_CARS = [
+  ['Toyota Vitz','Hatchback',2800,'Automatic','Petrol',5,'Compact, fuel-saving hatchback — perfect for city runs.'],
+  ['Toyota Axio','Sedan',3500,'Automatic','Petrol',5,'Comfortable, economical sedan for daily hire.'],
+  ['Toyota Fielder','Wagon',4000,'Automatic','Petrol',5,'Roomy station wagon with a big boot for luggage.'],
+  ['Toyota Noah','MPV',7000,'Automatic','Petrol',8,'7–8 seater family van, ideal for trips and groups.'],
+  ['Nissan X-Trail','SUV',6500,'Automatic','Petrol',5,'Comfortable SUV for family travel and light off-road.'],
+  ['Toyota Harrier','SUV',9000,'Automatic','Petrol',5,'Premium SUV — stylish, smooth and spacious.'],
+  ['Mazda CX-5','SUV',7500,'Automatic','Petrol',5,'Sporty, efficient SUV with a refined interior.'],
+  ['Subaru Forester','SUV',7000,'Automatic','Petrol',5,'All-wheel-drive SUV, sure-footed on rough roads.'],
+  ['Toyota Prado','4x4',15000,'Automatic','Diesel',7,'Rugged 4x4 for safaris and up-country travel.'],
+  ['Toyota Land Cruiser V8','4x4',25000,'Automatic','Diesel',7,'Flagship 4x4 for VIP transfers and tough terrain.'],
+  ['Toyota Hilux Double Cab','Pickup',8000,'Manual','Diesel',5,'Tough pickup for work, farms and rough roads.'],
+  ['Toyota Hiace 14-Seater','Van',9000,'Manual','Diesel',14,'Great for group travel, tours, events and shuttles.'],
+];
+async function seedIfEmpty(){
+  if(!STATE.user || STATE.user.role!=='admin') return;
+  try{
+    const snap = await fdb.collection('cars').limit(1).get();
+    if(!snap.empty) return;
+    const batch = fdb.batch();
+    SEED_CARS.forEach(c=>{ const ref=fdb.collection('cars').doc();
+      batch.set(ref, { name:c[0], category:c[1], price:c[2], transmission:c[3], fuel:c[4],
+        seats:c[5], desc:c[6], image:stockFor(c[0]), available:true, createdAt:Date.now() }); });
+    batch.set(fdb.collection('settings').doc('app'), DEFAULT_SETTINGS, { merge:true });
+    await batch.commit(); toast('Starter fleet loaded','ok');
+  }catch(e){ console.warn('seed skipped', e); }
+}
+
+/* ---------- realtime listeners -> STATE ---------- */
+const _unsub = {};
+function detachAll(){ Object.keys(_unsub).forEach(k=>{ try{ _unsub[k] && _unsub[k](); }catch(e){} delete _unsub[k]; }); }
+function attachListeners(){
+  detachAll();
+  _unsub.settings = fdb.collection('settings').doc('app').onSnapshot(
+    d => { STATE.settings = d.exists ? d.data() : DEFAULT_SETTINGS; render(); },
+    e => { STATE.settings = STATE.settings || DEFAULT_SETTINGS; });
+  _unsub.cars = fdb.collection('cars').onSnapshot(
+    s => { STATE.cars = s.docs.map(d=>({ id:d.id, ...d.data() })).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)); render(); },
+    e => console.warn('cars listen', e));
+  const u = STATE.user;
+  if(u && u.role==='admin'){
+    _unsub.bookings = fdb.collection('bookings').onSnapshot(
+      s => { STATE.bookings = s.docs.map(d=>({ id:d.id, ...d.data() })); render(); }, e=>console.warn('bookings', e));
+    _unsub.users = fdb.collection('users').onSnapshot(
+      s => { STATE.users = s.docs.map(d=>({ id:d.id, ...d.data() })); render(); }, e=>console.warn('users', e));
+  } else if(u){
+    _unsub.bookings = fdb.collection('bookings').where('userId','==',u.uid).onSnapshot(
+      s => { STATE.bookings = s.docs.map(d=>({ id:d.id, ...d.data() })); render(); }, e=>console.warn('own bookings', e));
+    STATE.users = [];
+  } else { STATE.bookings = []; STATE.users = []; }
+}
+
+/* ---------- session / auth state ---------- */
+function currentUser(){ return STATE.user; }
+function logout(){ auth.signOut().then(()=>{ toast('Signed out'); go('home'); }); }
+
+auth.onAuthStateChanged(async (fbUser) => {
+  detachAll();
+  if(fbUser){
+    let role='user', username = fbUser.displayName || (fbUser.email||'').split('@')[0];
+    try{
+      const uref = fdb.collection('users').doc(fbUser.uid);
+      const snap = await uref.get();
+      if(snap.exists){ const d=snap.data(); role=d.role||'user'; username=d.username||username; }
+      else { await uref.set({ username, email:fbUser.email, role:'user', createdAt:Date.now() }); }
+    }catch(e){ console.warn('profile', e); }
+    STATE.user = { uid:fbUser.uid, email:fbUser.email, username, role };
+    attachListeners(); seedIfEmpty();
+  } else {
+    STATE.user = null; attachListeners();
+  }
+  STATE.ready = true; render();
+});
+
+/* ---------- category glyph (inline SVG car) ---------- */
+function bodyTypeFor(cat){
+  return { Economy:'hatch', Hatchback:'hatch', Sedan:'sedan', Wagon:'wagon', MPV:'mpv',
+           SUV:'suv', '4x4':'offroad', Van:'van', Pickup:'pickup', Luxury:'sedan' }[cat] || 'sedan';
+}
+function tintFor(cat){
+  return { Economy:'#8fd6ff', Hatchback:'#8fd6ff', Sedan:'#F5B301', Wagon:'#F5B301', MPV:'#c9a4ff',
+           Van:'#c9a4ff', SUV:'#17C3B2', '4x4':'#9ae66e', Pickup:'#ffb27a', Luxury:'#ff9bd0' }[cat] || '#F5B301';
+}
+// Original side-profile car illustrations (no photos -> no copyright issues). 220x120 viewBox, facing right.
+function vehicleSVG(type, tint){
+  const W=(cx)=>`<g><circle cx="${cx}" cy="90" r="15" fill="#0d1626" stroke="${tint}" stroke-width="4"/><circle cx="${cx}" cy="90" r="6" fill="${tint}" fill-opacity=".55"/></g>`;
+  const ground=`<line x1="16" y1="107" x2="204" y2="107" stroke="${tint}" stroke-width="2.5" opacity=".22" stroke-linecap="round"/>`;
+  const B=(d)=>`<path d="${d}" fill="${tint}" fill-opacity=".16" stroke="${tint}" stroke-width="4" stroke-linejoin="round"/>`;
+  const G=(d)=>`<path d="${d}" fill="#0b1524" stroke="${tint}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  const head=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.4" fill="${tint}"/>`;
+  let wa=64, wb=156, parts='';
+  if(type==='sedan'){
+    parts=B("M30,88 L30,70 Q30,66 36,65 L60,62 L78,50 Q82,46 90,46 L126,46 Q134,46 139,51 L152,62 L184,65 Q190,66 190,70 L190,88 Z")
+      +G("M86,49 L104,49 L104,61 L74,61 Z")+G("M110,49 L128,49 L138,61 L110,61 Z")+head(188,72);
+  } else if(type==='hatch'){ wa=62; wb=150;
+    parts=B("M28,88 L28,68 Q28,64 34,63 L54,60 L72,46 Q76,42 84,42 L150,42 Q158,42 160,50 L168,64 Q170,66 170,70 L170,88 Z")
+      +G("M80,45 L100,45 L100,60 L70,60 Z")+G("M106,45 L150,45 L150,60 L106,60 Z")+head(168,72);
+  } else if(type==='wagon'){
+    parts=B("M28,88 L28,70 Q28,66 34,65 L58,62 L76,48 Q80,44 88,44 L172,44 Q182,44 184,52 L188,64 Q190,66 190,70 L190,88 Z")
+      +G("M84,47 L102,47 L102,61 L74,61 Z")+G("M108,47 L150,47 L150,61 L108,61 Z")+G("M156,47 L180,47 L182,61 L156,61 Z")+head(188,72);
+  } else if(type==='mpv'){
+    parts=B("M26,90 L26,66 Q26,62 32,61 L52,58 L66,40 Q70,36 78,36 L176,36 Q186,36 188,44 L190,60 Q192,62 192,66 L192,90 Z")
+      +G("M74,39 L96,39 L96,58 L64,58 Z")+G("M102,39 L128,39 L128,58 L102,58 Z")+G("M134,39 L172,39 L184,58 L134,58 Z")+head(190,70);
+  } else if(type==='suv'){ wa=64; wb=158;
+    parts=B("M26,86 L26,64 Q26,60 32,59 L54,56 L74,44 Q78,40 86,40 L160,40 Q172,40 176,48 L188,60 Q192,62 192,66 L192,86 Z")
+      +G("M82,43 L104,43 L104,57 L72,57 Z")+G("M110,43 L150,43 L156,57 L110,57 Z")+head(190,68);
+  } else if(type==='offroad'){ wa=64; wb=160;
+    parts=B("M24,86 L24,60 Q24,56 30,55 L48,52 L48,40 Q48,36 54,36 L176,36 Q184,36 184,42 L184,52 L190,56 Q194,58 194,62 L194,86 Z")
+      +G("M56,40 L96,40 L96,54 L56,54 Z")+G("M102,40 L150,40 L150,54 L102,54 Z")+G("M156,40 L176,40 L176,54 L156,54 Z")
+      +`<line x1="46" y1="33" x2="150" y2="33" stroke="${tint}" stroke-width="3" opacity=".5"/>`+head(192,64);
+  } else if(type==='van'){ wa=60; wb=166;
+    parts=B("M20,90 L20,50 Q20,44 28,44 L176,44 Q192,44 196,54 L200,72 Q202,74 202,78 L202,90 Z")
+      +G("M28,50 L60,50 L60,66 L28,66 Z")+G("M66,50 L96,50 L96,66 L66,66 Z")+G("M102,50 L132,50 L132,66 L102,66 Z")+G("M138,50 L176,50 L184,66 L138,66 Z")+head(200,74);
+  } else if(type==='pickup'){ wa=62; wb=160;
+    parts=B("M24,88 L24,66 Q24,62 30,61 L52,60 L52,48 Q52,44 58,44 L104,44 Q112,44 116,50 L124,60 L190,62 Q196,63 196,68 L196,88 Z")
+      +G("M60,47 L84,47 L84,58 L60,58 Z")+G("M90,47 L104,47 L112,58 L90,58 Z")
+      +`<rect x="126" y="60" width="64" height="4" fill="${tint}" fill-opacity=".35"/>`+head(194,70);
+  } else {
+    parts=B("M30,88 L30,70 L60,62 L78,50 L139,51 L184,65 L190,88 Z");
+  }
+  return `<svg class="glyph" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${ground}${parts}${W(wa)}${W(wb)}</svg>`;
+}
+function carGlyph(cat){ return vehicleSVG(bodyTypeFor(cat), tintFor(cat)); }
+function carMedia(car){
+  const glyph = carGlyph(car.category);
+  if(car.image) return `${glyph}<img class="car-photo" src="${esc(car.image)}" alt="${esc(car.name)}" loading="lazy" decoding="async" onerror="this.remove()">`;
+  return glyph;
+}
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+let VIEW = 'home';
+let ADMIN_TAB = 'fleet';
+function go(v){ VIEW=v; window.scrollTo({top:0,behavior:'instant'}); render(); }
+
+function render(){
+  const s = settings();
+  // header brand + phone
+  $('#brandName').innerHTML = esc(s.name)+`<small>${esc(s.tagline)}</small>`;
+  $('#footName').textContent = s.name+' '+s.tagline.replace(/&amp;/g,'&');
+  $('#phoneChip').textContent = '📞 '+s.phone;
+  $('#footPhone').textContent = s.phone;
+  $('#footPhone').href = 'tel:'+s.phone;
+  $('#yr').textContent = new Date().getFullYear();
+  renderNavAuth();
+
+  const u = currentUser();
+  let html='';
+  if(VIEW==='home') html=viewHome();
+  else if(VIEW==='auth') html=viewAuth();
+  else if(VIEW==='account') html = u ? (u.role==='admin'?viewAdmin():viewUser()) : viewAuth();
+  else html=viewHome();
+  $('#app').innerHTML = html;
+  bindView();
+}
+
+function renderNavAuth(){
+  const u=currentUser(); const el=$('#navAuth');
+  if(!u){
+    el.innerHTML = `<button class="btn btn-sm btn-ghost" onclick="go('auth')">Sign in</button>
+                    <button class="btn btn-sm btn-amber" onclick="go('auth')" style="margin-left:6px">Book now</button>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-sm ${u.role==='admin'?'btn-amber':'btn-ghost'}" onclick="go('account')">
+        ${u.role==='admin'?'⚙ Admin':'My account'}</button>
+      <button class="btn btn-sm btn-ghost" onclick="logout()" style="margin-left:6px">Sign out</button>`;
+  }
+}
+
+/* ============================================================
+   PUBLIC HOME
+   ============================================================ */
+function viewHome(){
+  const s=settings();
+  const cars = DB.get(K.cars,[]);
+  const available = cars.filter(c=>c.available);
+  const minPrice = cars.length? Math.min(...cars.map(c=>c.price)) : 0;
+  const cards = (available.length?available:cars).map(carCard).join('') ||
+    `<div class="muted">No cars listed yet.</div>`;
+  return `
+  <section class="hero"><div class="wrap"><div class="hero-grid">
+    <div>
+      <span class="eyebrow">● Available across ${esc(s.location)}</span>
+      <h1>Drive on your <span class="hl">terms.</span><br>Rent or hire with ease.</h1>
+      <p class="lead">${esc(s.name)} gives you clean, reliable cars for city runs, family trips, safaris and events — booked in minutes.</p>
+      <div class="hero-cta">
+        <button class="btn btn-amber" onclick="scrollFleet()">Browse cars</button>
+        <a class="btn btn-ghost" href="https://wa.me/${esc(s.whatsapp)}?text=${encodeURIComponent('Hello '+s.name+', I would like to hire a car.')}" target="_blank" rel="noopener">💬 WhatsApp us</a>
+        <a class="btn btn-ghost" href="tel:${esc(s.phone)}">📞 ${esc(s.phone)}</a>
+      </div>
+      <div class="hero-stats">
+        <div class="s"><b>${cars.length}</b><span>CARS IN FLEET</span></div>
+        <div class="s"><b>${available.length}</b><span>AVAILABLE NOW</span></div>
+        <div class="s"><b>${minPrice?('KES '+minPrice.toLocaleString('en-KE')):'—'}</b><span>FROM / DAY</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <span class="badge-float">⭐ Trusted local hire</span>
+      ${carGlyph('Sedan').replace('class="glyph"','class="bigcar"')}
+      <div class="roadmark"></div>
+    </div>
+  </div></div></section>
+
+  <section class="section" id="fleet"><div class="wrap">
+    <div class="section-head">
+      <div><h2>Our fleet</h2><div class="sub">Tap a car to book. Prices are per day.</div></div>
+      <div class="chip">Showing ${available.length} available of ${cars.length}</div>
+    </div>
+    <div class="fleet-grid">${cards}</div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center">
+      <div>
+        <h2 style="font-size:24px">Ready to hit the road?</h2>
+        <p class="muted" style="margin-top:6px;max-width:52ch">Create a free account to book online and track your rentals, or reach us directly.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-amber" onclick="go('auth')">Create account</button>
+        <a class="btn btn-ghost" href="https://wa.me/${esc(s.whatsapp)}" target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function carCard(c){
+  return `<article class="car">
+    <div class="car-media">
+      ${carMedia(c)}
+      <span class="cat">${esc(c.category)}</span>
+      <span class="avail ${c.available?'on':'off'}">${c.available?'Available':'Booked'}</span>
+    </div>
+    <div class="car-body">
+      <div class="car-title">${esc(c.name)}</div>
+      <div class="car-specs">
+        <span class="spec">👤 ${esc(c.seats)} seats</span>
+        <span class="spec">⚙ ${esc(c.transmission)}</span>
+        <span class="spec">⛽ ${esc(c.fuel)}</span>
+      </div>
+      <div class="price-row"><span class="price">${KES(c.price)}</span><small>/ day</small></div>
+      <div class="car-actions">
+        <button class="btn btn-amber btn-sm btn-block" ${c.available?'':'disabled'} onclick="openBooking('${c.id}')">
+          ${c.available?'Book this car':'Not available'}</button>
+      </div>
+    </div>
+  </article>`;
+}
+function scrollFleet(){ const el=$('#fleet'); if(el) el.scrollIntoView({behavior:'smooth'}); }
+
+/* ============================================================
+   AUTH  (login / register / change password)
+   ============================================================ */
+let AUTH_TAB='login';
+function viewAuth(){
+  const u=currentUser();
+  if(u){ // already signed in -> show change password
+    return `<div class="auth-wrap"><div class="card">
+      <h2 style="font-size:24px;margin-bottom:4px">Change password</h2>
+      <p class="muted small" style="margin-bottom:18px">Signed in as <b>${esc(u.username)}</b> (${esc(u.role)}).</p>
+      <div class="field"><label>Current password</label><input class="input" type="password" id="cpOld"></div>
+      <div class="field"><label>New password</label><input class="input" type="password" id="cpNew"></div>
+      <div class="field"><label>Confirm new password</label><input class="input" type="password" id="cpConf"></div>
+      <div class="form-err" id="cpErr"></div>
+      <button class="btn btn-amber btn-block" onclick="changePassword()">Update password</button>
+      <button class="btn btn-ghost btn-block" style="margin-top:10px" onclick="go('account')">Back</button>
+    </div></div>`;
+  }
+  const login=`
+    <div class="field"><label>Email</label><input class="input" type="email" id="liUser" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input class="input" type="password" id="liPass" autocomplete="current-password"></div>
+    <div class="form-err" id="liErr"></div>
+    <button class="btn btn-amber btn-block" onclick="doLogin()">Sign in</button>
+    <button class="btn btn-ghost btn-block" style="margin-top:8px" onclick="forgotPassword()">Forgot password?</button>`;
+  const reg=`
+    <div class="field"><label>Username</label><input class="input" id="rgUser" autocomplete="username"></div>
+    <div class="field"><label>Email</label><input class="input" type="email" id="rgEmail" autocomplete="email"></div>
+    <div class="grid-2">
+      <div class="field"><label>Password</label><input class="input" type="password" id="rgPass" autocomplete="new-password"></div>
+      <div class="field"><label>Confirm</label><input class="input" type="password" id="rgConf" autocomplete="new-password"></div>
+    </div>
+    <div class="form-err" id="rgErr"></div>
+    <button class="btn btn-amber btn-block" onclick="doRegister()">Create account</button>`;
+  return `<div class="auth-wrap">
+    <div class="center" style="margin-bottom:18px">
+      <span class="plate" style="font-size:26px;padding:5px 12px">OK</span>
+      <h2 style="margin-top:12px;font-size:26px">${AUTH_TAB==='login'?'Welcome back':'Create your account'}</h2>
+      <p class="muted small">Book cars online and track your rentals.</p>
+    </div>
+    <div class="card">
+      <div class="auth-tabs">
+        <button class="${AUTH_TAB==='login'?'active':''}" onclick="setAuthTab('login')">Sign in</button>
+        <button class="${AUTH_TAB==='register'?'active':''}" onclick="setAuthTab('register')">Register</button>
+      </div>
+      ${AUTH_TAB==='login'?login:reg}
+    </div>
+    <p class="center muted tiny" style="margin-top:14px">Admin? Sign in with your admin email.</p>
+  </div>`;
+}
+function setAuthTab(t){ AUTH_TAB=t; render(); }
+
+async function doLogin(){
+  const email=$('#liUser').value.trim(); const pw=$('#liPass').value; const err=$('#liErr');
+  if(!email||!pw){ err.textContent='Enter your email and password.'; return; }
+  err.textContent='Signing in…';
+  try{ await auth.signInWithEmailAndPassword(email, pw); toast('Signed in','ok'); go('account'); }
+  catch(e){ err.textContent=authMsg(e); }
+}
+async function doRegister(){
+  const un=$('#rgUser').value.trim(); const em=$('#rgEmail').value.trim();
+  const pw=$('#rgPass').value; const cf=$('#rgConf').value; const err=$('#rgErr');
+  if(!un||!em||!pw){ err.textContent='Fill in all fields.'; return; }
+  if(pw.length<6){ err.textContent='Password must be at least 6 characters.'; return; }
+  if(pw!==cf){ err.textContent='Passwords do not match.'; return; }
+  err.textContent='Creating account…';
+  try{
+    const cred = await auth.createUserWithEmailAndPassword(em, pw);
+    try{ await cred.user.updateProfile({ displayName:un }); }catch(e){}
+    try{ await fdb.collection('users').doc(cred.user.uid).set({ username:un, email:em, role:'user', createdAt:Date.now() }); }catch(e){ console.warn(e); }
+    toast('Account created. Welcome!','ok'); go('account');
+  }catch(e){ err.textContent=authMsg(e); }
+}
+async function changePassword(){
+  const err=$('#cpErr');
+  const oldp=$('#cpOld').value, np=$('#cpNew').value, cf=$('#cpConf').value;
+  if(!oldp||!np){ err.textContent='Fill in all fields.'; return; }
+  if(np.length<6){ err.textContent='New password must be at least 6 characters.'; return; }
+  if(np!==cf){ err.textContent='New passwords do not match.'; return; }
+  const user=auth.currentUser; if(!user){ err.textContent='Please sign in again.'; return; }
+  err.textContent='Updating…';
+  try{
+    const cred = firebase.auth.EmailAuthProvider.credential(user.email, oldp);
+    await user.reauthenticateWithCredential(cred);
+    await user.updatePassword(np);
+    toast('Password updated','ok'); go('account');
+  }catch(e){ err.textContent = (e&&e.code==='auth/wrong-password') ? 'Current password is incorrect.' : authMsg(e); }
+}
+async function forgotPassword(){
+  const email=$('#liUser').value.trim(); const err=$('#liErr');
+  if(!email){ err.textContent='Type your email above first, then tap Forgot password.'; return; }
+  try{ await auth.sendPasswordResetEmail(email); err.textContent=''; toast('Password reset email sent','ok'); }
+  catch(e){ err.textContent=authMsg(e); }
+}
+
+/* ============================================================
+   BOOKING (modal)
+   ============================================================ */
+function openBooking(carId){
+  const car=DB.get(K.cars,[]).find(c=>c.id===carId); if(!car) return;
+  const u=currentUser();
+  const body=`
+    <div class="field"><label>Car</label><input class="input" value="${esc(car.name)} — ${KES(car.price)}/day" disabled></div>
+    <div class="grid-2">
+      <div class="field"><label>Full name</label><input class="input" id="bkName" value="${u?esc(u.username):''}"></div>
+      <div class="field"><label>Phone</label><input class="input" id="bkPhone" placeholder="07xx xxx xxx"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Email</label><input class="input" id="bkEmail" value="${u?esc(u.email||''):''}"></div>
+      <div class="field"><label>ID / Passport No.</label><input class="input" id="bkId"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Pick-up date</label><input class="input" type="date" id="bkStart" min="${todayISO()}" value="${todayISO()}"></div>
+      <div class="field"><label>Return date</label><input class="input" type="date" id="bkEnd" min="${todayISO()}"></div>
+    </div>
+    <div class="field"><label>Notes (optional)</label><textarea id="bkNotes" placeholder="Pick-up location, extras, etc."></textarea></div>
+    <div class="card" style="padding:12px 14px;background:#0f1d31;display:flex;justify-content:space-between;align-items:center">
+      <span class="muted small">Estimated total</span>
+      <strong id="bkTotal" style="font-family:var(--disp);font-size:22px;color:var(--amber)">${KES(car.price)}</strong>
+    </div>
+    <div class="form-err" id="bkErr"></div>
+    <button class="btn btn-amber btn-block" style="margin-top:14px" onclick="submitBooking('${car.id}')">Confirm booking</button>
+    <button class="btn btn-ghost btn-block" style="margin-top:8px" onclick="bookViaWhatsApp('${car.id}')">💬 Send booking via WhatsApp</button>`;
+  showModal('Book '+car.name, body);
+  const recalc=()=>{
+    const d=days($('#bkStart').value,$('#bkEnd').value);
+    $('#bkTotal').textContent=KES(car.price*d)+ (d>1?`  ·  ${d} days`:'');
+  };
+  $('#bkStart').onchange=recalc; $('#bkEnd').onchange=recalc;
+}
+function days(a,b){ if(!a||!b) return 1; const d=Math.ceil((new Date(b)-new Date(a))/86400000); return Math.max(1,d||1); }
+function collectBooking(carId){
+  const car=DB.get(K.cars,[]).find(c=>c.id===carId);
+  const name=$('#bkName').value.trim(), phone=$('#bkPhone').value.trim();
+  const email=$('#bkEmail').value.trim(), idno=$('#bkId').value.trim();
+  const start=$('#bkStart').value, end=$('#bkEnd').value, notes=$('#bkNotes').value.trim();
+  if(!name||!phone||!start||!end){ $('#bkErr').textContent='Name, phone, pick-up and return dates are required.'; return null; }
+  if(new Date(end)<new Date(start)){ $('#bkErr').textContent='Return date cannot be before pick-up date.'; return null; }
+  const d=days(start,end); const u=currentUser();
+  return { carId, carName:car.name, price:car.price, days:d, total:car.price*d,
+    name, phone, email, idno, start, end, notes, status:'pending',
+    userId:u?u.uid:null, createdAt:Date.now() };
+}
+async function saveBookingDoc(b){ return fdb.collection('bookings').add(b); }
+async function submitBooking(carId){
+  const b=collectBooking(carId); if(!b) return;
+  $('#bkErr').textContent='Sending…';
+  try{ await saveBookingDoc(b); closeModal(); toast('Booking request sent! We will confirm shortly.','ok');
+       if(currentUser()) go('account'); }
+  catch(e){ $('#bkErr').textContent='Could not send booking: '+(e&&e.message||'error'); }
+}
+async function bookViaWhatsApp(carId){
+  const b=collectBooking(carId); if(!b) return;
+  try{ await saveBookingDoc(b); }catch(e){ console.warn(e); }
+  const s=settings();
+  const msg=`New car hire request — ${s.name}%0A%0ACar: ${b.carName}%0AName: ${b.name}%0APhone: ${b.phone}%0AEmail: ${b.email||'-'}%0AID: ${b.idno||'-'}%0APick-up: ${b.start}%0AReturn: ${b.end} (${b.days} day/s)%0AEstimated total: ${KES(b.total)}%0ANotes: ${b.notes||'-'}`;
+  window.open(`https://wa.me/${s.whatsapp}?text=${msg}`,'_blank');
+  closeModal(); toast('Opening WhatsApp…','ok');
+  if(currentUser()) go('account');
+}
+
+/* ============================================================
+   USER DASHBOARD
+   ============================================================ */
+function viewUser(){
+  const u=currentUser();
+  const mine=DB.get(K.bookings,[]).filter(b=>b.userId===u.uid).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const rows = mine.length? mine.map(b=>`
+    <tr>
+      <td><b>${esc(b.carName)}</b><div class="tiny muted">${esc(b.start)} → ${esc(b.end)} · ${b.days}d</div></td>
+      <td class="mono">${KES(b.total)}</td>
+      <td><span class="pill ${b.status}">${b.status}</span></td>
+      <td class="tiny muted">${new Date(b.createdAt).toLocaleDateString('en-KE')}</td>
+    </tr>`).join('') : `<tr><td colspan="4" class="muted center" style="padding:26px">No bookings yet. <a onclick="go('home')" style="cursor:pointer">Browse cars →</a></td></tr>`;
+  return `<div class="wrap">
+    <div class="dash-head">
+      <div><h2>Hi, ${esc(u.username)} 👋</h2><div class="muted small">Your rentals and account.</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-amber btn-sm" onclick="go('home')">Book a car</button>
+        <button class="btn btn-ghost btn-sm" onclick="go('auth')">Change password</button>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat amber"><div class="n">${mine.length}</div><div class="l">TOTAL BOOKINGS</div></div>
+      <div class="stat teal"><div class="n">${mine.filter(b=>b.status==='confirmed').length}</div><div class="l">CONFIRMED</div></div>
+      <div class="stat"><div class="n mono">${KES(mine.reduce((s,b)=>s+(['confirmed','completed'].includes(b.status)?b.total:0),0)).replace('KES ','')}</div><div class="l">KES SPENT</div></div>
+    </div>
+    <h3 style="font-size:20px;margin-bottom:12px">My bookings</h3>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Car & dates</th><th>Total</th><th>Status</th><th>Booked</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+  </div>`;
+}
+
+/* ============================================================
+   ADMIN DASHBOARD
+   ============================================================ */
+function viewAdmin(){
+  const tabs=[['fleet','Fleet & prices'],['bookings','Bookings'],['customers','Customers'],
+              ['reports','Reports'],['users','Users'],['settings','Settings']];
+  return `<div class="wrap">
+    <div class="dash-head">
+      <div><h2>Admin control</h2><div class="muted small">Manage the whole business from here.</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="go('auth')">Change password</button>
+    </div>
+    <div class="tabs">${tabs.map(t=>`<button class="tab ${ADMIN_TAB===t[0]?'active':''}" onclick="setTab('${t[0]}')">${t[1]}</button>`).join('')}</div>
+    <div id="adminBody">${adminBody()}</div>
+  </div>`;
+}
+function setTab(t){ ADMIN_TAB=t; $('#adminBody').innerHTML=adminBody(); }
+function adminBody(){
+  if(ADMIN_TAB==='fleet') return adminFleet();
+  if(ADMIN_TAB==='bookings') return adminBookings();
+  if(ADMIN_TAB==='customers') return adminCustomers();
+  if(ADMIN_TAB==='reports') return adminReports();
+  if(ADMIN_TAB==='users') return adminUsers();
+  if(ADMIN_TAB==='settings') return adminSettings();
+  return '';
+}
+
+/* ----- Fleet ----- */
+function adminFleet(){
+  const cars=DB.get(K.cars,[]);
+  const rows=cars.map(c=>`
+    <tr>
+      <td><b>${esc(c.name)}</b><div class="tiny muted">${esc(c.transmission)} · ${esc(c.fuel)} · ${esc(c.seats)} seats</div></td>
+      <td>${esc(c.category)}</td>
+      <td class="mono">${KES(c.price)}</td>
+      <td><span class="pill ${c.available?'confirmed':'cancelled'}">${c.available?'Available':'Hidden'}</span></td>
+      <td><div class="row-actions">
+        <button class="btn btn-sm btn-ghost" onclick="toggleCar('${c.id}')">${c.available?'Hide':'Show'}</button>
+        <button class="btn btn-sm btn-ghost" onclick="editCar('${c.id}')">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteCar('${c.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('') || `<tr><td colspan="5" class="muted center" style="padding:24px">No cars yet.</td></tr>`;
+  return `<div class="section-head">
+      <div><h3 style="font-size:22px">Fleet & prices</h3><div class="sub">Add, edit, hide or remove cars and set daily prices.</div></div>
+      <button class="btn btn-amber" onclick="editCar()">+ Add car</button>
+    </div>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Car</th><th>Category</th><th>Price/day</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+}
+let CAR_IMG = null; // holds the car photo (uploaded data-URL or pasted URL) while the modal is open
+function setImgPreview(src){
+  const p=$('#imgPrev'); if(!p) return;
+  p.innerHTML = src ? `<img src="${esc(src)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<span class=\\'tiny muted\\'>Bad image</span>'">`
+                    : `<span class="tiny muted">No photo</span>`;
+}
+function resizeImage(file, maxW, cb){
+  const reader=new FileReader();
+  reader.onload=()=>{ const img=new Image();
+    img.onload=()=>{ let w=img.width, h=img.height;
+      if(w>maxW){ h=Math.round(h*maxW/w); w=maxW; }
+      const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+      cv.getContext('2d').drawImage(img,0,0,w,h);
+      cb(cv.toDataURL('image/jpeg',0.72));
+    };
+    img.onerror=()=>toast('Could not read that image','err');
+    img.src=reader.result; };
+  reader.readAsDataURL(file);
+}
+function handleCarImg(input){
+  const f=input.files&&input.files[0]; if(!f) return;
+  if(!f.type.startsWith('image/')){ toast('Please choose an image file','err'); return; }
+  resizeImage(f, 900, d=>{ CAR_IMG=d; setImgPreview(d); toast('Photo added','ok'); });
+}
+function clearCarImg(){ CAR_IMG=null; const u=$('#fImg'); if(u) u.value=''; setImgPreview(null); }
+function onImgUrl(v){ CAR_IMG = v.trim()||null; setImgPreview(CAR_IMG); }
+
+function editCar(id){
+  const cars=DB.get(K.cars,[]); const c=id?cars.find(x=>x.id===id):null;
+  const cats=['Economy','Hatchback','Sedan','Wagon','MPV','SUV','4x4','Van','Pickup','Luxury'];
+  CAR_IMG = c ? (c.image||null) : null;
+  const isUrl = CAR_IMG && /^https?:/i.test(CAR_IMG);
+  const body=`
+    <div class="grid-2">
+      <div class="field"><label>Car name</label><input class="input" id="fName" value="${c?esc(c.name):''}" placeholder="e.g. Toyota Axio"></div>
+      <div class="field"><label>Category</label><select id="fCat">${cats.map(k=>`<option ${c&&c.category===k?'selected':''}>${k}</option>`).join('')}</select></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Price per day (KES)</label><input class="input" type="number" min="0" id="fPrice" value="${c?c.price:''}" placeholder="3500"></div>
+      <div class="field"><label>Seats</label><input class="input" type="number" min="1" id="fSeats" value="${c?c.seats:5}"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Transmission</label><select id="fTrans">
+        <option ${c&&c.transmission==='Automatic'?'selected':''}>Automatic</option>
+        <option ${c&&c.transmission==='Manual'?'selected':''}>Manual</option></select></div>
+      <div class="field"><label>Fuel</label><select id="fFuel">
+        ${['Petrol','Diesel','Hybrid','Electric'].map(k=>`<option ${c&&c.fuel===k?'selected':''}>${k}</option>`).join('')}</select></div>
+    </div>
+    <div class="field"><label>Car photo</label>
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div id="imgPrev" style="width:118px;height:74px;flex:0 0 auto;border:1px solid var(--line);border-radius:9px;overflow:hidden;display:grid;place-items:center;background:#0f1c30">
+          ${CAR_IMG?`<img src="${esc(CAR_IMG)}" style="width:100%;height:100%;object-fit:cover">`:'<span class="tiny muted">No photo</span>'}
+        </div>
+        <div style="flex:1;min-width:180px">
+          <input type="file" id="fFile" accept="image/*" style="display:none" onchange="handleCarImg(this)">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn btn-sm btn-ghost" onclick="document.getElementById('fFile').click()">📷 Upload photo</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="clearCarImg()">Remove</button>
+          </div>
+          <div class="tiny muted" style="margin-top:7px">Pick a photo from your phone or computer. It's resized automatically to save space.</div>
+        </div>
+      </div>
+    </div>
+    <div class="field"><label>…or paste an image link instead (optional)</label>
+      <input class="input" id="fImg" value="${isUrl?esc(CAR_IMG):''}" placeholder="https://… (leave blank if you uploaded a photo)" oninput="onImgUrl(this.value)"></div>
+    <div class="field"><label>Description (optional)</label><textarea id="fDesc">${c?esc(c.desc):''}</textarea></div>
+    <div class="form-err" id="fErr"></div>
+    <button class="btn btn-amber btn-block" onclick="saveCar('${id||''}')">${c?'Save changes':'Add car'}</button>`;
+  showModal(c?'Edit car':'Add a car', body);
+}
+async function saveCar(id){
+  const name=$('#fName').value.trim(); const price=parseFloat($('#fPrice').value);
+  if(!name){ $('#fErr').textContent='Car name is required.'; return; }
+  if(isNaN(price)||price<0){ $('#fErr').textContent='Enter a valid price.'; return; }
+  const data={ name, category:$('#fCat').value, price, seats:parseInt($('#fSeats').value)||5,
+    transmission:$('#fTrans').value, fuel:$('#fFuel').value, image:CAR_IMG||'', desc:$('#fDesc').value.trim() };
+  $('#fErr').textContent='Saving…';
+  try{
+    if(id){ await fdb.collection('cars').doc(id).update(data); }
+    else { await fdb.collection('cars').add({ available:true, createdAt:Date.now(), ...data }); }
+    closeModal(); toast(id?'Car updated':'Car added','ok');
+  }catch(e){ $('#fErr').textContent='Could not save: '+(e&&e.message||'error'); }
+}
+async function toggleCar(id){
+  const c=DB.get(K.cars,[]).find(x=>x.id===id); if(!c) return;
+  try{ await fdb.collection('cars').doc(id).update({ available:!c.available }); }catch(e){ toast('Update failed','err'); }
+}
+function deleteCar(id){
+  const c=DB.get(K.cars,[]).find(x=>x.id===id);
+  confirmModal('Delete car?', `Remove <b>${esc(c.name)}</b> from the fleet? This cannot be undone.`, async ()=>{
+    closeModal();
+    try{ await fdb.collection('cars').doc(id).delete(); toast('Car deleted','ok'); }catch(e){ toast('Delete failed','err'); }
+  });
+}
+
+/* ----- Bookings ----- */
+function adminBookings(){
+  const list=DB.get(K.bookings,[]).slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const rows=list.map(b=>`
+    <tr>
+      <td><b>${esc(b.name)}</b><div class="tiny muted">${esc(b.phone)}${b.email?' · '+esc(b.email):''}</div></td>
+      <td>${esc(b.carName)}<div class="tiny muted">${esc(b.start)} → ${esc(b.end)} · ${b.days}d</div></td>
+      <td class="mono">${KES(b.total)}</td>
+      <td><span class="pill ${b.status}">${b.status}</span></td>
+      <td><div class="row-actions">
+        <select onchange="setBookingStatus('${b.id}',this.value)" style="width:auto;padding:6px 26px 6px 10px;font-size:12.5px">
+          ${['pending','confirmed','completed','cancelled'].map(s=>`<option ${b.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+        <button class="btn btn-sm btn-ghost" onclick="viewBooking('${b.id}')">View</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteBooking('${b.id}')">Del</button>
+      </div></td>
+    </tr>`).join('') || `<tr><td colspan="5" class="muted center" style="padding:24px">No bookings yet.</td></tr>`;
+  return `<div class="section-head">
+      <div><h3 style="font-size:22px">Bookings</h3><div class="sub">Confirm, complete or cancel hire requests.</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="exportBookingsCSV()">⬇ Export CSV</button>
+    </div>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Customer</th><th>Car & dates</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+}
+// Normalise a Kenyan phone number to wa.me format (2547XXXXXXXX)
+function waNum(phone){
+  let n=String(phone||'').replace(/[^0-9]/g,'');
+  if(n.startsWith('0')) n='254'+n.slice(1);
+  else if(n.startsWith('7')||n.startsWith('1')) n='254'+n;
+  return n;
+}
+// Build the customer-facing WhatsApp message for a status change
+function bookingUpdateMsg(b,st,s){
+  const biz=s.name||'OK Mobility';
+  const contact=s.phone||s.whatsapp||'';
+  const car=b.carName||'your car';
+  if(st==='confirmed')
+    return `Hello ${b.name}, your booking with ${biz} is CONFIRMED \u2705\n\nCar: ${car}\nPick-up: ${b.start}\nReturn: ${b.end} (${b.days} day/s)\nTotal: ${KES(b.total)}\n\nThank you for choosing us. For anything, call or WhatsApp ${contact}.`;
+  if(st==='completed')
+    return `Hello ${b.name}, your hire with ${biz} is now marked COMPLETE \uD83D\uDE97\n\nCar: ${car}\nPeriod: ${b.start} \u2192 ${b.end}\n\nThank you for your business \u2014 we hope to serve you again!`;
+  if(st==='cancelled')
+    return `Hello ${b.name}, we're sorry to let you know your booking with ${biz} has been CANCELLED.\n\nCar: ${car}\nDates: ${b.start} \u2192 ${b.end}\n\nPlease contact us on ${contact} with any questions.`;
+  return '';
+}
+function openWa(){ if(window.__waURL) window.open(window.__waURL,'_blank'); closeModal(); }
+async function setBookingStatus(id,st){
+  const b=DB.get(K.bookings,[]).find(x=>x.id===id);
+  try{ await fdb.collection('bookings').doc(id).update({ status:st }); toast('Marked '+st,'ok'); }
+  catch(e){ toast('Update failed','err'); return; }
+  // Offer to notify the customer on WhatsApp for meaningful status changes
+  if(b && b.phone && ['confirmed','completed','cancelled'].includes(st)){
+    const s=settings();
+    const msg=bookingUpdateMsg(b,st,s);
+    window.__waURL='https://wa.me/'+waNum(b.phone)+'?text='+encodeURIComponent(msg);
+    showModal('Notify '+esc(b.name)+'?', `
+      <p class="muted small" style="margin-bottom:12px">Status saved as <b>${esc(st)}</b>. Send the customer a WhatsApp update? WhatsApp opens with this message ready \u2014 you tap send.</p>
+      <div style="white-space:pre-wrap;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);border-radius:10px;padding:12px;font-size:13px;line-height:1.5;margin-bottom:16px">${esc(msg)}</div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="closeModal()">Skip</button>
+        <button class="btn btn-teal" onclick="openWa()">\uD83D\uDCAC Open WhatsApp</button>
+      </div>`);
+  }
+}
+function viewBooking(id){
+  const b=DB.get(K.bookings,[]).find(x=>x.id===id);
+  const row=(k,v)=>`<div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--line-soft)"><span class="muted small">${k}</span><span style="text-align:right">${v||'—'}</span></div>`;
+  showModal('Booking details', `
+    ${row('Customer', esc(b.name))}
+    ${row('Phone', `<a href="tel:${esc(b.phone)}">${esc(b.phone)}</a>`)}
+    ${row('Email', esc(b.email))}
+    ${row('ID / Passport', esc(b.idno))}
+    ${row('Car', esc(b.carName))}
+    ${row('Pick-up', esc(b.start))}
+    ${row('Return', esc(b.end))}
+    ${row('Days', b.days)}
+    ${row('Price/day', KES(b.price))}
+    ${row('Total', `<b style="color:var(--amber)">${KES(b.total)}</b>`)}
+    ${row('Status', `<span class="pill ${b.status}">${b.status}</span>`)}
+    ${row('Notes', esc(b.notes))}
+    ${row('Requested', new Date(b.createdAt).toLocaleString('en-KE'))}
+    <a class="btn btn-teal btn-block" style="margin-top:16px" target="_blank" href="https://wa.me/${esc(waNum(b.phone))}">💬 WhatsApp customer</a>`);
+}
+function deleteBooking(id){
+  confirmModal('Delete booking?','This will permanently remove the booking record.',async ()=>{
+    closeModal();
+    try{ await fdb.collection('bookings').doc(id).delete(); toast('Booking deleted','ok'); }catch(e){ toast('Delete failed','err'); }
+  });
+}
+function exportBookingsCSV(){
+  const list=DB.get(K.bookings,[]);
+  if(!list.length){ toast('No bookings to export','err'); return; }
+  const head=['Name','Phone','Email','ID','Car','PickUp','Return','Days','PricePerDay','Total','Status','Requested'];
+  const rows=list.map(b=>[b.name,b.phone,b.email,b.idno,b.carName,b.start,b.end,b.days,b.price,b.total,b.status,b.createdAt]
+    .map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(','));
+  const csv=[head.join(','),...rows].join('\n');
+  const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='okmobility-bookings-'+todayISO()+'.csv'; a.click();
+  URL.revokeObjectURL(url); toast('CSV downloaded','ok');
+}
+
+/* ----- Customers ----- */
+function adminCustomers(){
+  const list=DB.get(K.bookings,[]);
+  const map={};
+  list.forEach(b=>{ const key=b.phone||b.email||b.name;
+    if(!map[key]) map[key]={ name:b.name, phone:b.phone, email:b.email, idno:b.idno, count:0, spent:0, last:b.createdAt };
+    map[key].count++; map[key].spent += ['confirmed','completed'].includes(b.status)?b.total:0;
+    if(b.createdAt>map[key].last) map[key].last=b.createdAt;
+  });
+  const custs=Object.values(map).sort((a,b)=>b.count-a.count);
+  const rows=custs.map(c=>`
+    <tr><td><b>${esc(c.name)}</b>${c.idno?`<div class="tiny muted">ID ${esc(c.idno)}</div>`:''}</td>
+      <td><a href="tel:${esc(c.phone)}">${esc(c.phone)}</a><div class="tiny muted">${esc(c.email||'')}</div></td>
+      <td class="mono">${c.count}</td>
+      <td class="mono">${KES(c.spent)}</td>
+      <td class="tiny muted">${new Date(c.last).toLocaleDateString('en-KE')}</td>
+    </tr>`).join('') || `<tr><td colspan="5" class="muted center" style="padding:24px">No customer data yet.</td></tr>`;
+  return `<div class="section-head"><div><h3 style="font-size:22px">Customers</h3>
+      <div class="sub">Everyone who has requested a hire, with totals.</div></div>
+      <div class="chip">${custs.length} customers</div></div>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Customer</th><th>Contact</th><th>Bookings</th><th>Spent</th><th>Last</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+}
+
+/* ----- Reports ----- */
+function adminReports(){
+  const cars=DB.get(K.cars,[]); const bk=DB.get(K.bookings,[]);
+  const earned=bk.filter(b=>['confirmed','completed'].includes(b.status)).reduce((s,b)=>s+b.total,0);
+  const pending=bk.filter(b=>b.status==='pending').length;
+  const thisMonth=bk.filter(b=>new Date(b.createdAt).toISOString().slice(0,7)===new Date().toISOString().slice(0,7)).length;
+  // revenue by car
+  const byCar={};
+  bk.filter(b=>['confirmed','completed'].includes(b.status)).forEach(b=>{ byCar[b.carName]=(byCar[b.carName]||0)+b.total; });
+  const maxRev=Math.max(1,...Object.values(byCar));
+  const bars=Object.entries(byCar).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${esc(n)}</span><span class="mono muted">${KES(v)}</span></div>
+      <div style="height:9px;background:#0f1d31;border-radius:999px;overflow:hidden"><div style="height:100%;width:${(v/maxRev*100).toFixed(0)}%;background:linear-gradient(90deg,var(--amber),var(--amber-d))"></div></div>
+    </div>`).join('') || `<div class="muted small">No confirmed revenue yet.</div>`;
+  // status breakdown
+  const statuses=['pending','confirmed','completed','cancelled'].map(s=>[s,bk.filter(b=>b.status===s).length]);
+  return `
+    <div class="stat-grid">
+      <div class="stat green"><div class="n mono">${KES(earned).replace('KES ','')}</div><div class="l">KES CONFIRMED REVENUE</div></div>
+      <div class="stat amber"><div class="n">${bk.length}</div><div class="l">TOTAL BOOKINGS</div></div>
+      <div class="stat teal"><div class="n">${pending}</div><div class="l">PENDING REQUESTS</div></div>
+      <div class="stat"><div class="n">${thisMonth}</div><div class="l">THIS MONTH</div></div>
+      <div class="stat"><div class="n">${cars.filter(c=>c.available).length}/${cars.length}</div><div class="l">CARS AVAILABLE</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.3fr .7fr;gap:16px" class="rep-grid">
+      <div class="card"><h3 style="font-size:18px;margin-bottom:16px">Revenue by car (confirmed)</h3>${bars}</div>
+      <div class="card"><h3 style="font-size:18px;margin-bottom:16px">Bookings by status</h3>
+        ${statuses.map(([s,n])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-soft)">
+          <span class="pill ${s}">${s}</span><b class="mono">${n}</b></div>`).join('')}
+        <button class="btn btn-ghost btn-block" style="margin-top:16px" onclick="exportBookingsCSV()">⬇ Export bookings CSV</button>
+      </div>
+    </div>`;
+}
+
+/* ----- Users ----- */
+function adminUsers(){
+  const users=DB.get(K.users,[]); const me=currentUser();
+  const rows=users.map(u=>`
+    <tr><td><b>${esc(u.username||'—')}</b>${u.id===me.uid?' <span class="tiny muted">(you)</span>':''}</td>
+      <td class="tiny muted">${esc(u.email||'')}</td>
+      <td><span class="pill ${u.role}">${u.role}</span></td>
+      <td class="tiny muted">${u.createdAt?new Date(u.createdAt).toLocaleDateString('en-KE'):''}</td>
+      <td><div class="row-actions">
+        <button class="btn btn-sm btn-ghost" onclick="toggleRole('${u.id}')">${u.role==='admin'?'Make user':'Make admin'}</button>
+        <button class="btn btn-sm btn-ghost" onclick="sendReset('${esc(u.email||'')}')">Send reset</button>
+        ${u.id===me.uid?'':`<button class="btn btn-sm btn-danger" onclick="deleteUser('${u.id}')">Delete</button>`}
+      </div></td>
+    </tr>`).join('') || `<tr><td colspan="5" class="muted center" style="padding:24px">No accounts yet.</td></tr>`;
+  return `<div class="section-head"><div><h3 style="font-size:22px">Users</h3>
+      <div class="sub">People sign up themselves on the login screen. Promote them to admin here.</div></div></div>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    <div class="note">To create a new admin: have the person register on the login screen, then tap “Make admin” next to their name. “Send reset” emails them a password-reset link. “Delete” removes their access here; to fully delete the sign-in account, remove it under Authentication in the Firebase console.</div>`;
+}
+async function toggleRole(id){
+  const users=DB.get(K.users,[]); const u=users.find(x=>x.id===id); if(!u) return;
+  if(u.role==='admin' && users.filter(x=>x.role==='admin').length<=1){ toast('Keep at least one admin','err'); return; }
+  const next=u.role==='admin'?'user':'admin';
+  try{ await fdb.collection('users').doc(id).update({ role:next }); toast('Role updated','ok'); }
+  catch(e){ toast('Update failed','err'); }
+}
+async function sendReset(email){
+  if(!email){ toast('No email on file','err'); return; }
+  try{ await auth.sendPasswordResetEmail(email); toast('Reset email sent to '+email,'ok'); }
+  catch(e){ toast(authMsg(e),'err'); }
+}
+function deleteUser(id){
+  const u=DB.get(K.users,[]).find(x=>x.id===id);
+  confirmModal('Remove user?',`Remove access for <b>${esc(u.username||u.email||'this user')}</b>? (Their sign-in account stays until you delete it in the Firebase console.)`,async ()=>{
+    closeModal();
+    try{ await fdb.collection('users').doc(id).delete(); toast('User removed','ok'); }catch(e){ toast('Delete failed','err'); }
+  });
+}
+
+/* ----- Settings ----- */
+function adminSettings(){
+  const s=settings();
+  return `<div style="max-width:560px">
+    <div class="section-head"><div><h3 style="font-size:22px">Business settings</h3>
+      <div class="sub">These appear across the site and on WhatsApp bookings.</div></div></div>
+    <div class="card">
+      <div class="grid-2">
+        <div class="field"><label>Business name</label><input class="input" id="stName" value="${esc(s.name)}"></div>
+        <div class="field"><label>Tagline</label><input class="input" id="stTag" value="${esc(s.tagline)}"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Phone</label><input class="input" id="stPhone" value="${esc(s.phone)}"></div>
+        <div class="field"><label>WhatsApp number (with country code)</label><input class="input" id="stWa" value="${esc(s.whatsapp)}"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Location</label><input class="input" id="stLoc" value="${esc(s.location)}"></div>
+        <div class="field"><label>Email (optional)</label><input class="input" id="stEmail" value="${esc(s.email||'')}"></div>
+      </div>
+      <button class="btn btn-amber btn-block" onclick="saveBiz()">Save settings</button>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3 style="font-size:18px;margin-bottom:10px">Data & backup</h3>
+      <p class="muted small" style="margin-bottom:14px">Your data lives in Firebase (Firestore) and is shared across every device in real time. You can download a snapshot anytime.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="exportData()">⬇ Download snapshot (JSON)</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportBookingsCSV()">⬇ Bookings CSV</button>
+      </div>
+      <div class="note">This version uses one shared cloud database, so a booking made on any phone appears in your admin on any device. It needs an internet connection. Manage accounts and back-end data in your Firebase console.</div>
+    </div>
+  </div>`;
+}
+async function saveBiz(){
+  const s={ name:$('#stName').value.trim()||'OK Mobility', tagline:$('#stTag').value.trim(),
+    phone:$('#stPhone').value.trim(), whatsapp:$('#stWa').value.replace(/[^0-9]/g,''),
+    location:$('#stLoc').value.trim()||'Kenya', email:$('#stEmail').value.trim() };
+  try{ await fdb.collection('settings').doc('app').set(s,{merge:true}); toast('Settings saved','ok'); }
+  catch(e){ toast('Could not save settings','err'); }
+}
+function exportData(){
+  const data={ cars:DB.get(K.cars,[]), bookings:DB.get(K.bookings,[]), users:DB.get(K.users,[]), settings:settings() };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='okmobility-snapshot-'+todayISO()+'.json'; a.click(); URL.revokeObjectURL(url);
+  toast('Snapshot downloaded','ok');
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+function showModal(title, bodyHtml){
+  $('#modalRoot').innerHTML=`<div class="modal-back" onclick="if(event.target===this)closeModal()">
+    <div class="modal"><div class="modal-head"><h3>${title}</h3><button class="x" onclick="closeModal()">×</button></div>
+    <div class="modal-body">${bodyHtml}</div></div></div>`;
+}
+function closeModal(){ $('#modalRoot').innerHTML=''; }
+function confirmModal(title, msg, onYes){
+  window.__yes=onYes;
+  showModal(title, `<p style="margin-bottom:18px">${msg}</p>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="(window.__yes&&window.__yes());">Yes, continue</button>
+    </div>`);
+}
+
+/* ============================================================
+   BIND (post-render hooks) + BOOT
+   ============================================================ */
+function bindView(){ /* handlers are inline; reserved for future */ }
+
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e;
+  const bar=document.getElementById('installBar'); if(bar) bar.style.display='flex'; });
+document.getElementById('installBtn').addEventListener('click',async()=>{
+  document.getElementById('installBar').style.display='none';
+  if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; }
+});
+
+(function boot(){
+  render(); // first paint (auth listener re-renders once Firebase resolves)
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  }
+})();
+</script>
+</body>
+</html>

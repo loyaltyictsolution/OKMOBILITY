@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function role() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : 'guest';
+    }
+    function isAdmin() { return role() == 'admin'; }
+
+    // Cars: anyone can view the fleet; only admins add / edit / delete.
+    match /cars/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Business settings (name, phone, WhatsApp...): public read, admin write.
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Bookings: anyone (incl. guests) can create; admins manage all;
+    // a signed-in customer can read their own.
+    match /bookings/{id} {
+      allow create: if true;
+      allow read:   if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    // User profiles: a user manages their own; admins manage everyone.
+    // Nobody can make themselves admin from the app (role must be 'user' on sign-up,
+    // and a user cannot change their own role). Promote the first admin from the console.
+    match /users/{uid} {
+      allow read:   if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow create: if signedIn() && request.auth.uid == uid
+                    && request.resource.data.role == 'user';
+      allow update: if isAdmin()
+                    || (signedIn() && request.auth.uid == uid
+                        && request.resource.data.role == resource.data.role);
+      allow delete: if isAdmin();
+    }
+  }
+}

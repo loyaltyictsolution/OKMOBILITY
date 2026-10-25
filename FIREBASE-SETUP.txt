@@ -1,0 +1,66 @@
+OK MOBILITY — Firebase (shared database) setup
+==============================================
+
+This version stores cars, bookings and accounts in Firebase (Firestore + Auth),
+so a booking made on ANY phone appears in your admin on ANY device, live.
+Your project config is already baked into index.html.
+
+Do these 4 steps once, in the Firebase console (console.firebase.google.com),
+in project "ok-mobility-83a76".
+
+--------------------------------------------------------------------
+STEP 1 — Turn on Email/Password sign-in
+--------------------------------------------------------------------
+Left menu: Build -> Authentication -> Get started
+-> Sign-in method -> Email/Password -> Enable -> Save.
+
+--------------------------------------------------------------------
+STEP 2 — Create the Firestore database
+--------------------------------------------------------------------
+Left menu: Build -> Firestore Database -> Create database
+-> Location: eur3 (Europe) is fine for Kenya -> Start in PRODUCTION mode
+-> Enable.
+
+--------------------------------------------------------------------
+STEP 3 — Paste the security rules
+--------------------------------------------------------------------
+Firestore Database -> Rules tab -> delete what's there -> paste the entire
+contents of the file "firestore.rules" (included in this folder) -> Publish.
+
+--------------------------------------------------------------------
+STEP 4 — Deploy the site and make yourself the admin
+--------------------------------------------------------------------
+a) Deploy: drag this whole folder into Netlify (Deploy manually), or redeploy
+   your existing site. Open the https link.
+
+b) On the site: tap "Sign in" -> Register -> create YOUR owner account
+   (email + password). This makes a normal user.
+
+c) Make that account the admin (one-time):
+   Firebase console -> Firestore Database -> Data tab -> open the "users"
+   collection -> open the single document there (that's you) -> click the
+   "role" field -> change its value from  user  to  admin  -> update.
+
+d) Go back to the site and refresh. You are now admin: the 12 starter cars
+   load automatically, and the ⚙ Admin area appears with Fleet, Bookings,
+   Customers, Reports, Users and Settings.
+
+That's it. From now on:
+  - Customers book from their phones -> bookings appear in your admin instantly.
+  - To add another admin: have them Register on the site, then in
+    Admin -> Users tap "Make admin" next to their name.
+
+--------------------------------------------------------------------
+GOOD TO KNOW / HONEST NOTES
+--------------------------------------------------------------------
+- The site now needs an internet connection (data lives in the cloud).
+- The firebaseConfig values in index.html are NOT secrets; they only identify
+  your project. Real protection comes from the rules in step 3.
+- Guests can book without an account (kept simple). Anyone can therefore submit
+  a booking; that's normal for a public booking form. If you later get spam,
+  we can require login to book, or add basic rate-limiting.
+- Deleting a user in Admin -> Users removes their access record. To fully
+  delete their sign-in, remove them under Authentication in the console.
+- I could not test against your live project from my side, so if a step in the
+  console has changed or something doesn't behave, tell me what you see and
+  I'll adjust.
