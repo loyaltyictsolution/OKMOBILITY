@@ -1,0 +1,105 @@
+OK MOBILITY — M-PESA (SAFARICOM DARAJA) SETUP
+==============================================
+
+WHAT WAS BUILT
+--------------
+Admin-initiated STK Push (the "enter M-Pesa PIN" prompt). From the admin
+Bookings tab: open a booking -> "Request M-Pesa" -> enter the customer's
+phone and amount -> "Send prompt". The customer's phone receives a PIN
+prompt; once they pay, the booking is marked "paid" automatically.
+
+Three serverless functions were added under netlify/functions/:
+  mpesa-stkpush.js  - starts the payment (holds your secret keys)
+  mpesa-query.js    - checks whether the customer paid
+  mpesa-callback.js - the URL Safaricom needs; just acknowledges receipt
+
+Your secret keys are NEVER in the website code. They live only in Netlify
+environment variables (server-side). This is mandatory: a website's
+JavaScript is visible to anyone, so secrets cannot go there.
+
+This is running in SANDBOX (test) mode. No real money moves. You can switch
+to real payments later once you have a Paybill/Till + Daraja go-live approval
+(see LATER section).
+
+
+STEP 1 — CREATE A FREE DARAJA ACCOUNT (5 min)
+---------------------------------------------
+1. Go to  https://developer.safaricom.co.ke
+2. Sign up (free). Verify your email and log in.
+3. Top-right -> "My Apps" -> "Add a new app".
+4. Name it (e.g. "OK Mobility"). Tick the "Lipa Na M-Pesa Sandbox" product
+   (and "M-Pesa Sandbox" if shown). Create.
+5. Open the app. You will see two values:
+       Consumer Key
+       Consumer Secret
+   Keep this page open — you need these in Step 2.
+
+
+STEP 2 — DEPLOY THE FUNCTIONS + ADD YOUR KEYS
+---------------------------------------------
+The site must be deployed in a way that includes the functions. Try A first.
+
+A) DRAG-AND-DROP (try this first)
+   1. Unzip the project. Make sure the folder still contains:
+         index.html, sw.js, manifest.json, netlify.toml,
+         and the  netlify/functions/  folder with the 3 .js files.
+   2. Drag the whole okmobility folder onto your site's Deploys drop zone.
+   3. After it publishes, open your site in Netlify -> "Functions" tab (or
+      "Logs"/"Functions"). If you see mpesa-stkpush, mpesa-query,
+      mpesa-callback listed — SUCCESS, functions deployed.
+   4. If the Functions tab is empty, drag-and-drop did not carry them on
+      your plan. Use method B.
+
+B) CONNECT GITHUB (reliable fallback, one-time setup)
+   If A did not show the functions, connect a Git repo so Netlify builds
+   the functions automatically. Tell me and I will give you exact steps —
+   it is a one-time setup and future updates become easier (no dragging).
+
+ADD YOUR KEYS (required either way):
+   1. Netlify -> your site -> Site configuration -> Environment variables.
+   2. Add two variables (from Step 1):
+         MPESA_CONSUMER_KEY     = <your Consumer Key>
+         MPESA_CONSUMER_SECRET  = <your Consumer Secret>
+   3. Save. Then re-deploy (or "Clear cache and deploy") so the functions
+      pick up the new variables.
+
+   (You do NOT need to set the shortcode or passkey for sandbox — the
+    functions already default to Safaricom's public sandbox test values.)
+
+
+STEP 3 — TEST IT
+----------------
+1. Open your live site, sign in as admin, go to Bookings.
+2. Open any booking -> "Request M-Pesa".
+3. Phone: use the sandbox test number  254708374149
+   Amount: leave as is (or set 1).
+4. Click "Send prompt". Within a few seconds the status should move to
+   "Payment received" and the booking shows a green "paid" badge.
+   (In sandbox the test number auto-completes — no real phone is rung.)
+
+If you see "Could not reach the payment server" -> the functions are not
+deployed (revisit Step 2A/2B).
+If you see "Could not get access token" -> your Consumer Key/Secret are
+wrong or the env vars were not saved / not re-deployed.
+
+
+LATER — GOING LIVE WITH REAL MONEY (when you're ready)
+------------------------------------------------------
+Sandbox never moves real money. To accept real M-Pesa you will need:
+  1. A registered business.
+  2. An M-Pesa Paybill or Till (Buy Goods) number.
+  3. Daraja PRODUCTION credentials + Safaricom "go-live" approval for your
+     app (submitted through the Daraja portal; requires your shortcode).
+This is paperwork and Safaricom approval, not code. Once approved, you only
+change these Netlify environment variables — no code changes:
+     MPESA_ENV        = production
+     MPESA_SHORTCODE  = <your Paybill/Till>
+     MPESA_PASSKEY    = <your production passkey from Safaricom>
+     MPESA_CONSUMER_KEY / MPESA_CONSUMER_SECRET = <your production app keys>
+
+PRODUCTION HARDENING (recommended before real use):
+Right now the browser marks a booking "paid" after confirming with Safaricom.
+For a tamper-proof record, payment should instead be written by the server
+(the mpesa-callback function) using the Firebase Admin SDK, so a booking can
+never be marked paid by anything except a verified Safaricom callback. Ask me
+to add this when you move to production.

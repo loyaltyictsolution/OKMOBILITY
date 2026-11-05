@@ -113,3 +113,14 @@ SUPPORT / OWNER
   OK Mobility Car Rentals & Hire
   Phone / WhatsApp: 0726049772
   Kenya
+
+
+THEME + OFFICE SUITE (current version)
+--------------------------------------
+- Light blue/green theme by default, with a sun/moon button for dark mode.
+- Put your logo file here as logo.png (optional). Without it, a built-in logo shows.
+- Admin area = sidebar: Rentals (Fleet, Bookings, Customers, Reports), Finance
+  (Invoices, Payments, Daybook, Expenses), HR (Employees, Leave, Attendance),
+  Reception (Visitors, Appointments, Messages), Payroll, Oversight (Users, Audit log, Settings).
+- M-Pesa (see MPESA-SETUP.txt) is unchanged: View a booking -> Request M-Pesa.
+- IMPORTANT: publish firestore.rules in Firebase (Firestore -> Rules) or the office tabs stay empty.

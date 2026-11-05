@@ -42,5 +42,18 @@ service cloud.firestore {
                         && request.resource.data.role == resource.data.role);
       allow delete: if isAdmin();
     }
+
+    // Office modules (admin only)
+    match /o_invoices/{id} { allow read, write: if isAdmin(); }
+    match /o_payments/{id} { allow read, write: if isAdmin(); }
+    match /o_expenses/{id} { allow read, write: if isAdmin(); }
+    match /o_employees/{id} { allow read, write: if isAdmin(); }
+    match /o_leave/{id} { allow read, write: if isAdmin(); }
+    match /o_attendance/{id} { allow read, write: if isAdmin(); }
+    match /o_visitors/{id} { allow read, write: if isAdmin(); }
+    match /o_appointments/{id} { allow read, write: if isAdmin(); }
+    match /o_messages/{id} { allow read, write: if isAdmin(); }
+    match /o_payroll/{id} { allow read, write: if isAdmin(); }
+    match /o_audit/{id} { allow read, create: if isAdmin(); allow update, delete: if false; }
   }
 }

@@ -1,0 +1,5 @@
+# Netlify configuration for OK Mobility
+# Tells Netlify where the M-Pesa serverless functions live.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
